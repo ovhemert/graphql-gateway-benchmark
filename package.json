@@ -1,0 +1,40 @@
+{
+  "name": "graphql-gateway-benchmark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "benchmarks/apollo-gateway.js",
+  "scripts": {
+    "apollo": "npm run apollo:small && npm run apollo:large",
+    "apollo:large": "node ./benchmarks/apollo-gateway.js large",
+    "apollo:small": "node ./benchmarks/apollo-gateway.js small", 
+
+    "apollo:go": "npm run apollo:go:small && npm run apollo:go:large",
+    "apollo:go:large": "node ./benchmarks/apollo-gateway-go-be.js large",
+    "apollo:go:small": "node ./benchmarks/apollo-gateway-go-be.js small",
+
+    "mercurius": "npm run mercurius:small && npm run mercurius:large",
+    "mercurius:large": "node ./benchmarks/mercurius-gateway.js large",
+    "mercurius:small": "node ./benchmarks/mercurius-gateway.js small",
+
+    "mercurius:go": "npm run mercurius:go:small && npm run mercurius:go:large",
+    "mercurius:go:large": "node ./benchmarks/mercurius-gateway-go-be.js large",
+    "mercurius:go:small": "node ./benchmarks/mercurius-gateway-go-be.js small",
+
+    "start": "npm run apollo && npm run apollo:go && npm run mercurius && npm run mercurius:go"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/federation": "^0.29.1",
+    "@apollo/gateway": "^0.38.2",
+    "apollo-server": "^3.5.0",
+    "autocannon": "^7.5.0",
+    "fastify": "^3.24.0",
+    "graphql": "^15.7.2",
+    "mercurius": "^8.10.0",
+    "wait-port": "^0.2.9"
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0"
+  }
+}

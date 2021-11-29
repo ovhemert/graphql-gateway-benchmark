@@ -1,0 +1,16 @@
+query {
+    topProducts {
+        upc
+        name
+        price
+        reviews {
+            id
+            body
+            author {
+                id
+                name
+                username
+            }
+        }
+    }
+}
