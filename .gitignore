@@ -1,2 +1,4 @@
 .vscode
+.wundergraph
 node_modules
+report/*.json

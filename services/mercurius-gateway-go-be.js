@@ -2,7 +2,7 @@
 
 const Fastify = require('fastify')
 const mercurius = require('mercurius')
-
+const cache = require('mercurius-cache')
 const server = Fastify()
 
 const services = [
@@ -17,6 +17,11 @@ server.register(mercurius, {
   gateway: {
     services
   }
+})
+
+server.register(cache, {
+  ttl: process.argv.includes('cache') ? 10 : 0,
+  all: true
 })
 
 server.listen(4000).then(url => {

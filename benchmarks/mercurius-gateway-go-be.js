@@ -1,6 +1,7 @@
 const { fork } = require('child_process')
 const waitPort = require('wait-port')
 const { fireGQL } = require('../lib/autocannon')
+const go = require('../go/services')
 
 const query = process.argv[2] || 'large'
 
@@ -21,12 +22,6 @@ const startGateway = async () => {
   return forkWait('gateway', 'services/mercurius-gateway-go-be.js', 4000)
 }
 
-const waitServices = async() => {
-  return Promise.all(serviceList.map(async s => {
-    return waitPort({ host: 'localhost', port: s.port, output: 'silent' })
-  }))
-}
-
 const stopGateway = gateway => {
   gateway.kill()
 }
@@ -34,12 +29,19 @@ const stopGateway = gateway => {
 const run = async () => {
   console.log(`🚀 Benchmarking Mercurius Federation Gateway - ${query} query (with Go Backend)`)
 
-  const services = await waitServices()
+  const services = await go.start()
   const gateway = await startGateway()
 
-  await fireGQL({ url: 'http://localhost:4000/graphql', file: `${query}.gql`, track: true })
+  await fireGQL({ 
+    name: 'mercurius-gateway-go-be', 
+    desc: 'Mercurius Gateway to Go Backend services', 
+    url: 'http://localhost:4000/graphql', 
+    file: query, 
+    track: false 
+  })
 
   stopGateway(gateway)
+  go.stop(services)
 }
 
 run()

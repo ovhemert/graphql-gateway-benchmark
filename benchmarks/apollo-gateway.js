@@ -5,10 +5,10 @@ const { fireGQL } = require('../lib/autocannon')
 const query = process.argv[2] || 'large'
 
 const serviceList = [
-  { name: 'accounts', port: 4011 },
-  { name: 'reviews', port: 4012 },
-  { name: 'products', port: 4013 },
-  { name: 'inventory', port: 4014 }
+  { name: 'accounts', port: 4001 },
+  { name: 'reviews', port: 4002 },
+  { name: 'products', port: 4003 },
+  { name: 'inventory', port: 4004 }
 ]
 
 const forkWait = async (name, file, port) => {
@@ -44,7 +44,13 @@ const run = async () => {
   const services = await startServices()
   const gateway = await startGateway()
 
-  await fireGQL({ url: 'http://localhost:4000', file: `${query}.gql`, track: true })
+  await fireGQL({ 
+    name: 'apollo-gateway', 
+    desc: 'Apollo Gateway to Apollo Backend services', 
+    url: 'http://localhost:4000', 
+    file: query, 
+    track: false 
+  })
 
   stopGateway(gateway)
   stopServices(services)

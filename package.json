@@ -2,25 +2,27 @@
   "name": "graphql-gateway-benchmark",
   "version": "1.0.0",
   "description": "",
-  "main": "benchmarks/apollo-gateway.js",
+  "main": "index.js",
   "scripts": {
     "apollo": "npm run apollo:small && npm run apollo:large",
     "apollo:large": "node ./benchmarks/apollo-gateway.js large",
-    "apollo:small": "node ./benchmarks/apollo-gateway.js small", 
-
+    "apollo:small": "node ./benchmarks/apollo-gateway.js small",
     "apollo:go": "npm run apollo:go:small && npm run apollo:go:large",
     "apollo:go:large": "node ./benchmarks/apollo-gateway-go-be.js large",
     "apollo:go:small": "node ./benchmarks/apollo-gateway-go-be.js small",
-
     "mercurius": "npm run mercurius:small && npm run mercurius:large",
     "mercurius:large": "node ./benchmarks/mercurius-gateway.js large",
     "mercurius:small": "node ./benchmarks/mercurius-gateway.js small",
-
+    "mercurius:cache": "npm run mercurius:cache:small && npm run mercurius:cache:large",
+    "mercurius:cache:large": "node ./benchmarks/mercurius-gateway-cache.js large",
+    "mercurius:cache:small": "node ./benchmarks/mercurius-gateway-cache.js small",
     "mercurius:go": "npm run mercurius:go:small && npm run mercurius:go:large",
     "mercurius:go:large": "node ./benchmarks/mercurius-gateway-go-be.js large",
     "mercurius:go:small": "node ./benchmarks/mercurius-gateway-go-be.js small",
-
-    "start": "npm run apollo && npm run apollo:go && npm run mercurius && npm run mercurius:go"
+    "bench": "npm run apollo && npm run apollo:go && npm run mercurius && npm run mercurius:cache && npm run mercurius:go",
+    "report": "node ./lib/report.js",
+    "start": "npm run bench && npm run report",
+    "wc": "wunderctl up --debug"
   },
   "author": "",
   "license": "ISC",
@@ -29,12 +31,22 @@
     "@apollo/gateway": "^0.38.2",
     "apollo-server": "^3.5.0",
     "autocannon": "^7.5.0",
+    "cli-table3": "^0.6.0",
     "fastify": "^3.24.0",
     "graphql": "^15.7.2",
     "mercurius": "^8.10.0",
-    "wait-port": "^0.2.9"
+    "mercurius-cache": "^0.10.0",
+    "wait-port": "^0.2.9",
+    "@types/dotenv": "^8.2.0",
+    "dotenv": "^8.2.0",
+    "@types/node": "^14.14.37",
+    "@wundergraph/sdk": "0.49.0",
+    "concurrently": "^6.0.0",
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.1.3"
   },
   "devDependencies": {
-    "concurrently": "^6.4.0"
+    "concurrently": "^6.4.0",
+    "@wundergraph/wunderctl": "^0.37.0"
   }
 }

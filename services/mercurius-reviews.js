@@ -2,6 +2,7 @@
 
 const Fastify = require('fastify')
 const mercurius = require('mercurius')
+const cache = require('mercurius-cache')
 
 const reviews = [
   {
@@ -87,11 +88,16 @@ app.register(mercurius, {
   federationMetadata: true
 })
 
+app.register(cache, {
+  ttl: process.argv.includes('cache') ? 10 : 0,
+  all: true
+})
+
 app.get('/', async function (req, reply) {
   const query = '{ _service { sdl } }'
   return app.graphql(query)
 })
 
-app.listen(4012).then(url => {
+app.listen(4002).then(url => {
   console.log(`🚀 Server ready at ${url}`)
 })
